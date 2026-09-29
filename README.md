@@ -7,7 +7,7 @@ The official download only ships Windows and macOS binaries, so this builds the 
 ## What `install.sh` does
 
 1. Installs build dependencies with `apt` (needs `sudo`).
-2. Clones [racarla96/HxCFloppyEmulator](https://github.com/racarla96/HxCFloppyEmulator) (branch `linux-ftdi-more-pids`) into `./src`.
+2. Clones [racarla96/HxCFloppyEmulator](https://github.com/racarla96/HxCFloppyEmulator) (branch `linux-thread-priority-fallback`) into `./src`.
 3. Builds the GUI (`hxcfloppyemulator`) and the command-line tool (`hxcfe`). FLTK is downloaded and built automatically.
 4. Installs to `~/.local/opt/hxcfloppyemulator`, with launchers in `~/.local/bin` and a menu entry for Xfce/GNOME.
 5. Links `libftdi.so` to `libftdi1.so.2`: the software loads `libftdi.so`, which current distros do not ship.
@@ -34,6 +34,8 @@ The log should show **"USB HxC Floppy Emulator ready!"**.
 ## The FTDI patch
 
 Upstream only opens the FTDI chip `0403:6001` on Linux. A USB HxC built around another chip (mine is an FT240X, `0403:6015`) is reported as "not detected". The fork adds `6015`, `6014`, `6010` and `6011` to the list. Upstream PR: [jfdelnero/HxCFloppyEmulator#50](https://github.com/jfdelnero/HxCFloppyEmulator/pull/50). Once it is merged, `install.sh` can clone upstream directly.
+
+The fork also adds a second fix. The USB listener thread is created with real-time priority (`SCHED_FIFO`); without permission for that (`ulimit -r` is `0` on a default desktop install) `pthread_create` fails with `EPERM`, the thread never starts, and the GUI shows the misleading **"FTDI D2XX Driver not installed!"**. The fork retries with the normal scheduler in that case.
 
 ## Loading files to the ABB S4 robot
 

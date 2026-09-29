@@ -14,8 +14,8 @@ sudo apt install -y build-essential git cmake pkg-config autoconf automake libto
 sudo apt install -y libdecor-0-dev || true
 
 # 2. Código fuente (el zip de docs/ solo trae binarios de Windows/macOS)
-# Fork con el parche de PIDs FTDI para Linux (PR jfdelnero/HxCFloppyEmulator#50)
-[ -d "$PROJ/src" ] || git clone --branch linux-ftdi-more-pids https://github.com/racarla96/HxCFloppyEmulator.git "$PROJ/src"
+# Fork con parches para Linux: PIDs FTDI (PR jfdelnero/HxCFloppyEmulator#50) y fallback de prioridad de hilos sin permisos realtime
+[ -d "$PROJ/src" ] || git clone --branch linux-thread-priority-fallback https://github.com/racarla96/HxCFloppyEmulator.git "$PROJ/src"
 
 # 3. Compilar (descarga y compila FLTK automáticamente)
 make -C "$PROJ/src/build" -j"$(nproc)" HxCFloppyEmulator_cmdline HxCFloppyEmulator_software

@@ -7,7 +7,7 @@ PROJ="$(cd "$(dirname "$0")" && pwd)"
 DEST="$HOME/.local/opt/hxcfloppyemulator"
 
 # 1. Dependencias (requiere sudo)
-sudo apt install -y build-essential git cmake pkg-config libusb-1.0-0-dev libftdi1-2 \
+sudo apt install -y build-essential git cmake pkg-config autoconf automake libtool libusb-1.0-0-dev libftdi1-2 dosfstools mtools python3 \
   libx11-dev libxft-dev libxinerama-dev libxcursor-dev libxfixes-dev libxrender-dev \
   libpango1.0-dev libcairo2-dev libwayland-dev libxkbcommon-dev libdbus-1-dev libpulse-dev
 # libdecor solo existe en Ubuntu >= 24.04 (Xubuntu 24.04+); opcional

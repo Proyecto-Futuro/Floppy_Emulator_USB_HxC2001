@@ -1,0 +1,2 @@
+# HxC Floppy Emulator USB (FTDI FT2232/FT232/FT245 based) - user access without root
+SUBSYSTEM=="usb", ATTR{idVendor}=="0403", MODE="0666", GROUP="plugdev"
